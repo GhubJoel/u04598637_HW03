@@ -12,5 +12,6 @@ namespace u04598637_HW03.Models
         [Display(Name = "File Name")]
 
         public string FileName { get; set; }
+        public HttpPostedFileBase[] Files { get; set; }
     }
 }

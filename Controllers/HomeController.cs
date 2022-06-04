@@ -20,17 +20,43 @@ namespace u04598637_HW03.Controllers
         public ActionResult Index(HttpPostedFileBase files, string radioresult)
         {
             var result = Request.Form["radioresult"];
-            
 
+            if(result == "Document")
+            {
                 var fileName = Path.GetFileName(files.FileName);
 
 
-                var path = Path.Combine(Server.MapPath("~/App_Data/uploads"), fileName);
+                var path = Path.Combine(Server.MapPath("~/Media/Documents"), fileName);
 
 
                 files.SaveAs(path);
 
-            return null;
+            }
+            else if(result == "Image")
+            {
+                var fileName = Path.GetFileName(files.FileName);
+
+
+                var path = Path.Combine(Server.MapPath("~/Media/Images"), fileName);
+
+
+                files.SaveAs(path);
+            }
+            else
+            {
+                var fileName = Path.GetFileName(files.FileName);
+
+
+                var path = Path.Combine(Server.MapPath("~/Media/Videos"), fileName);
+
+
+                files.SaveAs(path);
+            }
+
+
+          
+
+            return RedirectToAction("Index");
 
         }
 

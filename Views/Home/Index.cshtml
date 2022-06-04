@@ -18,7 +18,8 @@
         </div>
         <div class="col-sm-4">
             <h2>Option Selection</h2>
-            <form method="post">
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
                 <input type="radio" id="doc" name="radioresult" value="Document" />
                 <label for="doc">Document</label><br>
                 <input type="radio" id="image" name="radioresult" value="Image" />
@@ -29,13 +30,12 @@
                 <br>
                 <br>
 
-                <input type="button" value="Browse..." onclick="" id="browsebtn">
-                <label for="browsebtn">No file selected</label>
+                <input type="file" name="files"/>
 
                 <br>
                 <br>
                 <input type="submit" id="submitfile">
-            </form>
+            }
 
         </div>
     </div>
