@@ -1,0 +1,43 @@
+﻿@using u04598637_HW03.Models
+@model List<FileModel>
+
+@{
+    ViewBag.Title = "FilesPage";
+}
+
+<h2>Document of any file type</h2>
+<h4>View all files and download or delete them</h4>
+
+<div style="height: 400px; overflow:auto;">
+    <div class="well-sm">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr style="position: sticky; top: 0">
+                    <th class="col-lg-8">File Name</th>
+                    <th class="t, col-lg-2">Download Option</th>
+                    <th class="t, col-lg-2">Delete Option</th>
+                </tr>
+            </thead>
+            @foreach (FileModel file in Model)
+            {
+                <tr>
+                    <td>@file.FileName</td>
+              
+                  <td>
+                    <button type="button" class="btn btn-success">
+                        @Html.ActionLink("Download", "DownloadFile",
+                        new { filename = file.FileName})
+                    </button>
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-danger">
+                          @Html.ActionLink("Delete", "DeleteFile",
+                          new { filename = file.FileName },
+                          new { onclick = "return confirm('Are you sure you wish to delete this?');" })
+                      </button>
+                  </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
