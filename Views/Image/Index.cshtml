@@ -19,26 +19,60 @@
 
                 @foreach(var img in ViewBag.images)
                 {
-                    <img src="~/Media/Images/@Path.GetFileName(img)" width="500" height="400"/>
+                        <a data-fancybox="gallery" href="~/Media/Images/@Path.GetFileName(img)" >
+                            <img src="~/Media/Images/@Path.GetFileName(img)" width="500" height="400" />
+                        </a>
                 }
-                <br>
-                <div>
-                    @file.FileName
+                        <br>
+                        <div>
+                            @file.FileName
+                        </div>
+
+                        <button type="button" class="btn btn-success">
+                            @Html.ActionLink("Download", "DownloadFile",
+                         new { filename = file.FileName })
+                        </button>
+
+                        <button type="button" class="btn btn-danger">
+                            @Html.ActionLink("Delete", "DeleteFile",
+                         new { filename = file.FileName },
+                         new { onclick = "return confirm('Are you sure you wish to delete this?');" })
+                        </button>
+
+                    </div>
                 </div>
-
-                <button type="button" class="btn btn-success">
-                    @Html.ActionLink("Download", "DownloadFile",
-                 new { filename = file.FileName })
-                </button>
-
-                <button type="button" class="btn btn-danger">
-                    @Html.ActionLink("Delete", "DeleteFile",
-                 new { filename = file.FileName },
-                 new { onclick = "return confirm('Are you sure you wish to delete this?');" })
-                </button>
-
-            </div>
-        </div>
     </div>
+
+    <script>
+        fancybox.bind('[data-fancybox="gallery"]', {
+            dragToClose: false,
+
+            Toolbar: false,
+            closeButton: "top",
+
+            Image: {
+                zoom: false,
+            },
+
+            on: {
+                initCarousel: (fancybox) => {
+                    const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+
+                    fancybox.$container.style.setProperty(
+                        "--bg-image",
+                        `url("${slide.$thumb.src}")`
+                    );
+                },
+                "Carousel.change": (fancybox, carousel, to, from) => {
+                    const slide = carousel.slides[to];
+
+                    fancybox.$container.style.setProperty(
+                        "--bg-image",
+                        `url("${slide.$thumb.src}")`
+                    );
+                },
+            },
+        });
+    </script>
 
 }

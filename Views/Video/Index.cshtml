@@ -18,8 +18,13 @@
 
                 @foreach (var vid in ViewBag.videos)
                 {
-                    <img src="~/Media/Images/@Path.GetFileName(vid)" width="600" height="400" />
+                    <div class="glyphicon-hd-video">
+                        <a data-fancybox="gallery" href="~/Media/Images/@Path.GetFileName(vid)">
+                            <video src="~/Media/Videos/@Path.GetFileName(vid)" width="600" height="400" />
+                        </a>
+                    </div>
                 }
+
                 <br>
                 <div>
                     @file.FileName
@@ -27,17 +32,48 @@
 
                 <button type="button" class="btn btn-success">
                     @Html.ActionLink("Download", "DownloadFile",
-                 new { filename = file.FileName })
+                     new { filename = file.FileName })
                 </button>
 
                 <button type="button" class="btn btn-danger">
                     @Html.ActionLink("Delete", "DeleteFile",
-                 new { filename = file.FileName },
-                 new { onclick = "return confirm('Are you sure you wish to delete this?');" })
+                     new { filename = file.FileName },
+                     new { onclick = "return confirm('Are you sure you wish to delete this?');" })
                 </button>
 
             </div>
         </div>
     </div>
 
+    <script>
+        fancybox.bind('[data-fancybox="gallery"]', {
+            dragToClose: false,
+
+            Toolbar: false,
+            closeButton: "top",
+
+            Image: {
+                zoom: false,
+            },
+
+            on: {
+                initCarousel: (fancybox) => {
+                    const slide = fancybox.Carousel.slides[fancybox.Carousel.page];
+
+                    fancybox.$container.style.setProperty(
+                        "--bg-image",
+                        `url("${slide.$thumb.src}")`
+                    );
+                },
+                "Carousel.change": (fancybox, carousel, to, from) => {
+                    const slide = carousel.slides[to];
+
+                    fancybox.$container.style.setProperty(
+                        "--bg-image",
+                        `url("${slide.$thumb.src}")`
+                    );
+                },
+            },
+        });
+    </script>
 }
